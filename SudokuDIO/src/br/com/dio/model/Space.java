@@ -30,7 +30,7 @@ public class Space {
     return expected;
   }
 
-  public boolean idFixed(){
+  public boolean isFixed(){
     return fixed;
   }
 }

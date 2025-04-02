@@ -1,6 +1,6 @@
 package br.com.dio.model;
 
-public class GameStatusEnum {
+public enum GameStatusEnum {
   NON_STARTED,
   INCOMPLETE,
   COMPLETE

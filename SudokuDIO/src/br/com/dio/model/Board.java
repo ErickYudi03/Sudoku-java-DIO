@@ -1,5 +1,9 @@
 package br.com.dio.model;
 
+import static br.com.dio.model.GameStatusEnum.*;
+import static java.util.Objects.*;
+
+import java.util.Collection;
 import java.util.List;
 
 public class Board {
@@ -13,4 +17,29 @@ public class Board {
     return spaces;
   }
 
+  public GameStatusEnum getStatus(){
+    if(spaces.stream().flatMap(Collection::stream).noneMatch(s -> !s.isFixed() && nonNull(s.getActual()))){
+      return NON_STARTED;
+    }
+
+    return spaces.stream().flatMap(Collection::stream).anyMatch(s -> isNull(s.getActual())) ? INCOMPLETE : COMPLETE;
+  }
+
+  public boolean hasErrors(){
+    if(getStatus() == NON_STARTED){
+      return false;
+    }
+
+    return spaces.stream().flatMap(Collection :: stream).anyMatch(s -> nonNull(s.getActual()) && !s.getActual().equals(s.getExpected()));
+  }
+
+  public boolean changeValue(final int col, final int row, final Integer value){
+      var space : Space = spaces.get(col).get(row);
+      if(space.isFixed()){
+        return false;
+      }
+
+      space.setActual(value);
+      return true;
+  }
 }
